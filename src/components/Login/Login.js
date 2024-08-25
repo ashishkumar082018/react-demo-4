@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useReducer, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useReducer,
+  useContext,
+  useRef,
+} from "react";
 
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
@@ -27,7 +33,7 @@ const passwordReducer = (state, action) => {
 
 const Login = () => {
   const ctx = useContext(AuthContext);
-
+  const emailRef = useRef();
   const [formIsValid, setFormIsValid] = useState(false);
 
   const [emailState, dispatchEmail] = useReducer(emailReducer, {
@@ -42,6 +48,10 @@ const Login = () => {
 
   const { isValid: emailIsValid } = emailState;
   const { isValid: passwordIsValid } = passwordState;
+
+  useEffect(() => {
+    emailRef.current.focus();
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -85,6 +95,7 @@ const Login = () => {
         >
           <label htmlFor="email">E-Mail</label>
           <input
+            ref={emailRef}
             type="email"
             id="email"
             value={emailState.value}
